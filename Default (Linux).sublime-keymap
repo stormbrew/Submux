@@ -1,5 +1,5 @@
 [
 	{ "keys": ["ctrl+b", "-"], "command": "split_vertical" },
 	{ "keys": ["ctrl+b", "|"], "command": "split_horizontal" },
-	{ "keys": ["ctrl+b", "d"], "command": "delete_current_pane" }
+	{ "keys": ["ctrl+b", "ctrl+d"], "command": "delete_current_pane" }
 ]

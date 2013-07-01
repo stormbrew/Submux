@@ -15,7 +15,7 @@ class SubmuxCommand(sublime_plugin.WindowCommand):
 		layout.split_pane(self.window.active_group(), sublime_layout.Horizontal)
 		return layout
 
-	def close_current_pane(self):
+	def delete_current_pane(self):
 		layout = self._layout()
 		layout.delete_pane(self.window.active_group())
 		return layout
@@ -28,6 +28,6 @@ class SplitHorizontalCommand(SubmuxCommand):
 	def run(self):
 		self.window.set_layout(self.split_horizontal().make_sublime_layout())
 
-class CloseCurrentPaneCommand(SubmuxCommand):
+class DeleteCurrentPaneCommand(SubmuxCommand):
 	def run(self):
-		self.window.set_layout(self.close_current_pane().make_sublime_layout())
+		self.window.set_layout(self.delete_current_pane().make_sublime_layout())
