@@ -250,9 +250,11 @@ class Layout(object):
 		# Just insert it to the current group if orientations match,
 		# otherwise make a new split group.
 		if group.orientation == orientation:
+			new_pane.parent = group
 			group.panes[pane_idx+1:pane_idx+1] = [new_pane]
 		else:
 			split = DisplayGroup(self, [pane, new_pane])
+			split.parent = group
 			group.panes[pane_idx:pane_idx+1] = [split]
 
 		return len(self.cells)-1
