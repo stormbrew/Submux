@@ -215,6 +215,51 @@ class Layout(object):
 	def delete_pane(self, number):
 		return self._delete_pane_obj(self.cells[number])
 
+	def _split_pane_obj(self, pane, orientation):
+		"""
+		Splits a pane evenly in two by the orientation given.
+		Returns the index of the newly created pane.
+		"""
+		group = pane.parent
+
+		if not group:
+			# if we're splitting the root pane when there's no
+			# other panes, we just make a simple split structure.
+			if orientation == Horizontal:
+				first = DisplayPane(self, (0.0, 0.0, 0.5, 1.0))
+				second = DisplayPane(self, (0.5, 0.0, 1.0, 1.0))
+			else:
+				first = DisplayPane(self, (0.0, 0.0, 1.0, 0.5))
+				second = DisplayPane(self, (0.0, 0.5, 1.0, 1.0))
+			split = DisplayGroup(self, [first, second])
+			self.cells = [first, second]
+			self.groups = split
+			return 1
+
+		pane_idx = group.panes.index(pane)
+		if orientation == Horizontal:
+			orig, pane.right = pane.right, pane.left + (pane.right - pane.left) / 2
+			new_pane = DisplayPane(self, (pane.right, pane.top, orig, pane.bottom))
+		else:
+			orig, pane.bottom = pane.bottom, pane.top + (pane.bottom - pane.top) / 2
+			new_pane = DisplayPane(self, (pane.left, pane.bottom, pane.right, orig))
+
+		# always append to the end to avoid disrupting existing paneids
+		self.cells.append(new_pane) 
+
+		# Just insert it to the current group if orientations match,
+		# otherwise make a new split group.
+		if group.orientation == orientation:
+			group.panes[pane_idx+1:pane_idx+1] = [new_pane]
+		else:
+			split = DisplayGroup(self, [pane, new_pane])
+			group.panes[pane_idx:pane_idx+1] = [split]
+
+		return len(self.cells)-1
+
+	def split_pane(self, number, orientation):
+		return self._split_pane_obj(self.cells[number], orientation)
+
 	def make_sublime_layout(self):
 		if len(self.cells) == 1:
 			return {'cells': [[0,0,1,1]], 'rows': [0.0,1.0], 'cols': [0.0,1.0]}
@@ -289,4 +334,26 @@ print
 layout.delete_pane(0)
 print layout
 print layout.make_sublime_layout()
+print
+
+layout2 = {'cells': [[0,0,1,1]], 'cols': [0.0,1.0], 'rows': [0.0,1.0]}
+
+layout2 = Layout(layout2)
+print layout2
+print layout2.make_sublime_layout()
+print
+
+layout2.split_pane(0, Vertical)
+print layout2
+print layout2.make_sublime_layout()
+print
+
+layout2.split_pane(1, Vertical)
+print layout2
+print layout2.make_sublime_layout()
+print
+
+layout2.split_pane(0, Horizontal)
+print layout2
+print layout2.make_sublime_layout()
 print
