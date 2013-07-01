@@ -303,57 +303,56 @@ class Layout(object):
 			'cols': [col[1] for col in output_cols],
 		}
 
+if __name__ == '__main__':
+	#layout = {'cells': [[3, 0, 5, 1], [3, 1, 4, 2], [4, 1, 5, 2], [3, 2, 5, 4], [0, 3, 2, 4], [1, 0, 3, 3]], 'cols': [0.0, 0.25, 0.37291831879460746, 0.5, 0.75, 1.0], 'rows': [0.0, 0.25, 0.5, 0.6875706214689266, 1.0]}
+	#layout = {'cells': [[0, 0, 2, 1], [0, 1, 1, 2], [1, 1, 2, 2]], 'cols': [0.0, 0.5, 1.0], 'rows': [0.0, 0.5, 1.0]}
+	layout = {
+		'cells': [
+			[0, 0, 2, 1],
+			[2, 0, 4, 2],
+			[4, 0, 5, 2],
+			[0, 1, 2, 2],
 
-#layout = {'cells': [[3, 0, 5, 1], [3, 1, 4, 2], [4, 1, 5, 2], [3, 2, 5, 4], [0, 3, 2, 4], [1, 0, 3, 3]], 'cols': [0.0, 0.25, 0.37291831879460746, 0.5, 0.75, 1.0], 'rows': [0.0, 0.25, 0.5, 0.6875706214689266, 1.0]}
-#layout = {'cells': [[0, 0, 2, 1], [0, 1, 1, 2], [1, 1, 2, 2]], 'cols': [0.0, 0.5, 1.0], 'rows': [0.0, 0.5, 1.0]}
-layout = {
-	'cells': [
-		[0, 0, 2, 1],
-		[2, 0, 4, 2],
-		[4, 0, 5, 2],
-		[0, 1, 2, 2],
+			[0, 2, 1, 3],
+			[1, 2, 3, 3],
+			[3, 2, 5, 3],
+		],
+		'cols': [0.0, 0.35, 0.5, 0.8, 0.8, 1.0],
+		'rows': [0.0, 0.25, 0.5, 1.0],
+	}
 
-		[0, 2, 1, 3],
-		[1, 2, 3, 3],
-		[3, 2, 5, 3],
-	],
-	'cols': [0.0, 0.35, 0.5, 0.8, 0.8, 1.0],
-	'rows': [0.0, 0.25, 0.5, 1.0],
-}
+	layout = Layout(layout)
+	print(layout)
+	print(layout.make_sublime_layout())
+	print()
 
-layout = Layout(layout)
-print layout
-print layout.make_sublime_layout()
-print
+	layout.delete_pane(3)
+	print(layout)
+	print(layout.make_sublime_layout())
+	print()
 
-layout.delete_pane(3)
-print layout
-print layout.make_sublime_layout()
-print
+	layout.delete_pane(0)
+	print(layout)
+	print(layout.make_sublime_layout())
+	print()
+	layout2 = {'cells': [[0,0,1,1]], 'cols': [0.0,1.0], 'rows': [0.0,1.0]}
 
-layout.delete_pane(0)
-print layout
-print layout.make_sublime_layout()
-print
+	layout2 = Layout(layout2)
+	print(layout2)
+	print(layout2.make_sublime_layout())
+	print()
 
-layout2 = {'cells': [[0,0,1,1]], 'cols': [0.0,1.0], 'rows': [0.0,1.0]}
+	layout2.split_pane(0, Vertical)
+	print(layout2)
+	print(layout2.make_sublime_layout())
+	print()
 
-layout2 = Layout(layout2)
-print layout2
-print layout2.make_sublime_layout()
-print
+	layout2.split_pane(1, Vertical)
+	print(layout2)
+	print(layout2.make_sublime_layout())
+	print()
 
-layout2.split_pane(0, Vertical)
-print layout2
-print layout2.make_sublime_layout()
-print
-
-layout2.split_pane(1, Vertical)
-print layout2
-print layout2.make_sublime_layout()
-print
-
-layout2.split_pane(0, Horizontal)
-print layout2
-print layout2.make_sublime_layout()
-print
+	layout2.split_pane(0, Horizontal)
+	print(layout2)
+	print(layout2.make_sublime_layout())
+	print()

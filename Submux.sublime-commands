@@ -1,0 +1,5 @@
+[
+	{"command": "split_vertical", "caption": "Split the current pane into two vertically stacked panes."},
+	{"command": "split_horizontal", "caption": "Split the current pane into two horizontally stacked panes."},
+	{"command": "delete_current_pane", "caption": "Remove the current pane."},
+]
