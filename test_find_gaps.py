@@ -23,14 +23,7 @@ class DisplayCell(object):
 			)
 
 class DisplayPane(DisplayCell):
-	def __init__(self, layout, coords, pane_id):
-		super(DisplayPane, self).__init__(layout, coords)
-		self.pane_id = pane_id
-
-	def __repr__(self):
-		return "%s%s" % (self.__class__.__name__,
-			repr((((self.left, self.top, self.right, self.bottom)), self.pane_id))
-			)
+	pass
 
 class DisplayGroup(DisplayCell):
 	def __init__(self, layout, panes):
@@ -75,7 +68,7 @@ class DisplayGroup(DisplayCell):
 
 class Layout(object):
 	def __init__(self, layout):
-		self.cells = [DisplayPane(self, self._deref_splits(pane, layout['rows'], layout['cols']), idx) for idx, pane in enumerate(layout['cells'])]
+		self.cells = [DisplayPane(self, self._deref_splits(pane, layout['rows'], layout['cols'])) for pane in layout['cells']]
 
 		self.groups = self._extract_groups(self.cells)
 
@@ -143,6 +136,85 @@ class Layout(object):
 			if isinstance(cell, DisplayGroup):
 				nodes = cell.panes + nodes
 
+	def _get_adjacent(self, pane):
+		"""
+		Returns a tuple of the two cells around
+		the pane passed in. The one before, and the one after, 
+		in whatever orientation the parent group is. If there isn't one
+		before, the first will be None. If there isn't one
+		after, the last will be None. If it's the only pane
+		in the layout (or its group), both will be None.
+		"""
+		group = pane.parent
+
+		if not group:
+			return (None, None)
+
+		panes = sorted(group.panes, key=lambda pane: (pane.left, pane.top))
+
+		prev, cur = None, None
+		for opane in panes:
+			if cur:
+				return (prev, opane)
+			elif opane == pane:
+				cur = opane
+			else:
+				prev = opane
+
+		# if we're here there's nothing after.
+		return (prev, None)
+
+	def _delete_pane_obj(self, pane):
+		group = pane.parent
+		if not group: # don't delete if there are no more.
+			return
+
+		prev, next = self._get_adjacent(pane)
+		if not prev and not next:
+			self._delete_pane_obj(group) # delete this one instead
+		elif prev:
+			if group.orientation == Horizontal:
+				for child in self._depth_walk(prev):
+					if child.right == pane.left:
+						child.right = pane.right
+			else:
+				for child in self._depth_walk(prev):
+					if child.bottom == pane.top:
+						child.bottom = pane.bottom
+		else:
+			if group.orientation == Horizontal:
+				for child in self._depth_walk(next):
+					if child.left == pane.right:
+						child.left = pane.left
+			else:
+				for child in self._depth_walk(prev):
+					if child.top == pane.bottom:
+						child.top = pane.top
+
+		group_idx = group.panes.index(pane)
+		group.panes[group_idx:group_idx+1] = []
+
+		# don't forget to normalize it if we've left
+		# a group of one behind.
+		while group and len(group.panes) == 1:
+			npane = group.panes[0]
+			if group.parent:
+				group_idx = group.parent.panes.index(group)
+				group.parent.panes[group_idx] = npane
+			else:
+				# if we're here we've deleted everything to the
+				# root, just make this pane the root.
+				self.groups = npane
+			npane.parent = group.parent
+			group = group.parent
+
+		if pane in self.cells:
+			cell_idx = self.cells.index(pane)
+			self.cells[cell_idx:cell_idx+1] = []
+
+	def delete_pane(self, number):
+		return self._delete_pane_obj(self.cells[number])
+
 	def make_sublime_layout(self):
 		if len(self.cells) == 1:
 			return {'cells': [[0,0,1,1]], 'rows': [0.0,1.0], 'cols': [0.0,1.0]}
@@ -207,3 +279,14 @@ layout = {
 layout = Layout(layout)
 print layout
 print layout.make_sublime_layout()
+print
+
+layout.delete_pane(3)
+print layout
+print layout.make_sublime_layout()
+print
+
+layout.delete_pane(0)
+print layout
+print layout.make_sublime_layout()
+print
