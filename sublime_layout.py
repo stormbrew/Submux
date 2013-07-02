@@ -262,6 +262,62 @@ class Layout(object):
 	def split_pane(self, number, orientation):
 		return self._split_pane_obj(self.cells[number], orientation)
 
+	def find_left(self, number, wrap=False):
+		cell = self.cells[number]
+		# Find a DisplayCell with its right edge set to this
+		# cell's left edge and a vertical center between
+		# this cell's top and bottom.
+		bars = [cell.left]
+		if wrap: bars.append(1.0)
+
+		for bar in bars:
+			for idx, other in enumerate(self.cells):
+				mid = other.top + (other.bottom - other.top) / 2
+				if other.right == bar and mid >= cell.top and mid <= cell.bottom:
+					return idx
+
+	def find_right(self, number, wrap=False):
+		cell = self.cells[number]
+		# Find a DisplayCell with its left edge set to this
+		# cell's right edge and a vertical center between
+		# this cell's top and bottom.
+		bars = [cell.right]
+		if wrap: bars.append(0.0)
+
+		for bar in bars:
+			for idx, other in enumerate(self.cells):
+				mid = other.top + (other.bottom - other.top) / 2
+				if other.left == bar and mid >= cell.top and mid <= cell.bottom:
+					return idx
+
+	def find_above(self, number, wrap=False):
+		cell = self.cells[number]
+		# Find a DisplayCell with its bottom edge set to this
+		# cell's top edge and a horizontal center between
+		# this cell's left and right.
+		bars = [cell.top]
+		if wrap: bars.append(1.0)
+
+		for bar in bars:
+			for idx, other in enumerate(self.cells):
+				mid = other.left + (other.right - other.left) / 2
+				if other.bottom == bar and mid >= cell.left and mid <= cell.right:
+					return idx
+
+	def find_below(self, number, wrap=False):
+		cell = self.cells[number]
+		# Find a DisplayCell with its bottom edge set to this
+		# cell's top edge and a horizontal center between
+		# this cell's left and right.
+		bars = [cell.bottom]
+		if wrap: bars.append(0.0)
+
+		for bar in bars:
+			for idx, other in enumerate(self.cells):
+				mid = other.left + (other.right - other.left) / 2
+				if other.top == bar and mid >= cell.left and mid <= cell.right:
+					return idx
+
 	def make_sublime_layout(self):
 		if len(self.cells) == 1:
 			return {'cells': [[0,0,1,1]], 'rows': [0.0,1.0], 'cols': [0.0,1.0]}

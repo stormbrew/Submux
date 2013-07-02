@@ -19,5 +19,11 @@
 	{ "keys": ["ctrl+space", "R", "-"], "command": "submux", "args": {"do": "split", "direction": "Vertical", "open": "project_symbol"} },
 	{ "keys": ["ctrl+space", "R", "\\"], "command": "submux", "args": {"do": "split", "direction": "Horizontal", "open": "project_symbol" } },
 
+	// Switch to view to the left/right/above/below
+	{ "keys": ["ctrl+space", "left"], "command": "submux", "args": {"do": "switch", "direction": "left"} },
+	{ "keys": ["ctrl+space", "right"], "command": "submux", "args": {"do": "switch", "direction": "right"} },
+	{ "keys": ["ctrl+space", "up"], "command": "submux", "args": {"do": "switch", "direction": "above"} },
+	{ "keys": ["ctrl+space", "down"], "command": "submux", "args": {"do": "switch", "direction": "below"} },
+
 	{ "keys": ["ctrl+space", "d"], "command": "submux", "args": {"do": "delete_current_pane"} }
 ]

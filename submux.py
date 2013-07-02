@@ -36,6 +36,12 @@ class SubmuxCommand(sublime_plugin.WindowCommand):
 		layout.delete_pane(self.window.active_group())
 		self.window.set_layout(layout.make_sublime_layout())
 
+	def switch(self, layout, direction, wrap=True):
+		active = self.window.active_group()
+		finder = getattr(layout, "find_" + direction)
+		change = finder(active, wrap=wrap)
+		self.window.focus_group(change)
+
 	def run(self, **kargs):
 		cmd = kargs['do']
 		del kargs['do']
