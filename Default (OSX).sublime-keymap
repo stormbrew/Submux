@@ -1,5 +1,11 @@
 [
-	{ "keys": ["ctrl+space", "-"], "command": "split_vertical" },
-	{ "keys": ["ctrl+space", "\\"], "command": "split_horizontal" },
-	{ "keys": ["ctrl+space", "ctrl+d"], "command": "delete_current_pane" }
+	// Create new file in split pane.
+	{ "keys": ["ctrl+space", "n", "-"], "command": "submux", "args": {"do": "split", "direction": "Vertical", "open": "new"} },
+	{ "keys": ["ctrl+space", "n", "\\"], "command": "submux", "args": {"do": "split", "direction": "Horizontal", "open": "new" } },
+
+	// Copy current view in split pane.
+	{ "keys": ["ctrl+space", "c", "-"], "command": "submux", "args": {"do": "split", "direction": "Vertical", "open": "copy"} },
+	{ "keys": ["ctrl+space", "c", "\\"], "command": "submux", "args": {"do": "split", "direction": "Horizontal", "open": "copy" } },	
+
+	{ "keys": ["ctrl+space", "d"], "command": "submux", "args": {"do": "delete_current_pane"} }
 ]
