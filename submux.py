@@ -27,6 +27,10 @@ class SubmuxCommand(sublime_plugin.WindowCommand):
 			self.window.new_file()
 		elif cur_view and (open == 'copy' or open == 'move'):
 			self.window.set_view_index(cur_view, new_pane, 0)
+		elif open == 'anything':
+			self.window.run_command("show_overlay", {"overlay":"goto", "show_files": "true"})
+		elif open == 'project_symbol':
+			self.window.run_command("goto_symbol_in_project")
 
 	def delete_current_pane(self, layout):
 		layout.delete_pane(self.window.active_group())

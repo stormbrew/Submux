@@ -5,11 +5,19 @@
 
 	// Copy current view in split pane.
 	{ "keys": ["ctrl+space", "c", "-"], "command": "submux", "args": {"do": "split", "direction": "Vertical", "open": "copy"} },
-	{ "keys": ["ctrl+space", "c", "\\"], "command": "submux", "args": {"do": "split", "direction": "Horizontal", "open": "copy" } },	
+	{ "keys": ["ctrl+space", "c", "\\"], "command": "submux", "args": {"do": "split", "direction": "Horizontal", "open": "copy" } },
 
 	// Move current view in split pane.
 	{ "keys": ["ctrl+space", "m", "-"], "command": "submux", "args": {"do": "split", "direction": "Vertical", "open": "move"} },
-	{ "keys": ["ctrl+space", "m", "\\"], "command": "submux", "args": {"do": "split", "direction": "Horizontal", "open": "move" } },	
+	{ "keys": ["ctrl+space", "m", "\\"], "command": "submux", "args": {"do": "split", "direction": "Horizontal", "open": "move" } },
+
+	// Open anything in split pane. (Like if you'd opened the new view and pressed ctrl-p)
+	{ "keys": ["ctrl+space", "-"], "command": "submux", "args": {"do": "split", "direction": "Vertical", "open": "anything"} },
+	{ "keys": ["ctrl+space", "\\"], "command": "submux", "args": {"do": "split", "direction": "Horizontal", "open": "anything" } },
+
+	// Open symbol in project in split pane. (Like if you'd opened the new view and pressed ctrl-shift-r)
+	{ "keys": ["ctrl+space", "R", "-"], "command": "submux", "args": {"do": "split", "direction": "Vertical", "open": "project_symbol"} },
+	{ "keys": ["ctrl+space", "R", "\\"], "command": "submux", "args": {"do": "split", "direction": "Horizontal", "open": "project_symbol" } },
 
 	{ "keys": ["ctrl+space", "d"], "command": "submux", "args": {"do": "delete_current_pane"} }
 ]
