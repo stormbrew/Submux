@@ -12,9 +12,7 @@ class SubmuxCommand(sublime_plugin.WindowCommand):
 		new_pane = layout.split_pane(cur_pane, direction)
 
 		# if we're going to copy it we need to create a duplicated
-		# view of the currenly active file first. If we're moving it
-		# we need to at least record the currently active view to
-		# 
+		# view of the currenly active file first.
 		if cur_view and open == 'copy':
 			group, move_index = self.window.get_view_index(cur_view)
 			self.window.run_command("clone_file")
