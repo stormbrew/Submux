@@ -36,10 +36,22 @@ class SubmuxCommand(sublime_plugin.WindowCommand):
 		layout.delete_pane(self.window.active_group())
 		self.window.set_layout(layout.make_sublime_layout())
 
-	def switch(self, layout, direction, wrap=True):
+	def switch(self, layout, direction, open='none', wrap=True):
 		active = self.window.active_group()
 		finder = getattr(layout, "find_" + direction)
 		change = finder(active, wrap=wrap)
+
+		cur_view = self.window.active_view()
+		if cur_view:
+			if open == 'move':
+				self.window.set_view_index(cur_view, change, 0)
+			elif open == 'copy':
+				group, move_index = self.window.get_view_index(cur_view)
+				self.window.run_command("clone_file")
+				self.window.set_view_index(cur_view, group, move_index)
+				cur_view = self.window.active_view()
+				self.window.set_view_index(cur_view, change, 0)
+
 		self.window.focus_group(change)
 
 	def run(self, **kargs):
