@@ -37,5 +37,11 @@ class SubmuxCommand(sublime_plugin.WindowCommand):
 	def run(self, **kargs):
 		cmd = kargs['do']
 		del kargs['do']
+		layout_orig = self._layout() # wasteful perhaps, but helpful.
 		layout = self._layout()
-		return getattr(self, cmd)(layout, **kargs)
+		try:
+			return getattr(self, cmd)(layout, **kargs)
+		except:
+			print("An error occurred while running this command.")
+			print("State before: %s\nState after:  %s" % (layout_orig, layout))
+			raise
