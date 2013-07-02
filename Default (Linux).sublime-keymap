@@ -7,5 +7,9 @@
 	{ "keys": ["ctrl+space", "c", "-"], "command": "submux", "args": {"do": "split", "direction": "Vertical", "open": "copy"} },
 	{ "keys": ["ctrl+space", "c", "\\"], "command": "submux", "args": {"do": "split", "direction": "Horizontal", "open": "copy" } },	
 
+	// Move current view in split pane.
+	{ "keys": ["ctrl+space", "m", "-"], "command": "submux", "args": {"do": "split", "direction": "Vertical", "open": "move"} },
+	{ "keys": ["ctrl+space", "m", "\\"], "command": "submux", "args": {"do": "split", "direction": "Horizontal", "open": "move" } },	
+
 	{ "keys": ["ctrl+space", "d"], "command": "submux", "args": {"do": "delete_current_pane"} }
 ]
