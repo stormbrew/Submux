@@ -33,8 +33,23 @@ class SubmuxCommand(sublime_plugin.WindowCommand):
 			self.window.run_command("goto_symbol_in_project")
 
 	def delete_current_pane(self, layout):
-		layout.delete_pane(self.window.active_group())
-		self.window.set_layout(layout.make_sublime_layout())
+		cur_pane = self.window.active_group()
+		cur_view = self.window.active_view()
+		if not cur_view: # only delete the pane if it's empty.
+			# and only if there's actually more than one pane.
+			if len(layout.cells) > 1:
+				# move the views up a pane id after the deleted pane, otherwise
+				# they'll all shuffle around all over the place.
+				for pane_id in range(cur_pane+1, len(layout.cells)):
+					views = self.window.views_in_group(cur_pane)
+					while views:
+						view = views.pop()
+						self.window.set_view_index(view, pane_id - 1, 0)
+
+			layout.delete_pane(cur_pane)
+			self.window.set_layout(layout.make_sublime_layout())
+		else: # otherwise close the file
+			self.window.run_command("close")
 
 	def switch(self, layout, direction, open='none', wrap=True):
 		active = self.window.active_group()

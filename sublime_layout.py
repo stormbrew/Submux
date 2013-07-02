@@ -187,7 +187,7 @@ class Layout(object):
 					if child.left == pane.right:
 						child.left = pane.left
 			else:
-				for child in self._depth_walk(prev):
+				for child in self._depth_walk(next):
 					if child.top == pane.bottom:
 						child.top = pane.top
 
