@@ -34,7 +34,7 @@ class SubmuxCommand(sublime_plugin.WindowCommand):
 
 	def delete_current_pane(self, layout):
 		layout.delete_pane(self.window.active_group())
-		return layout
+		self.window.set_layout(layout.make_sublime_layout())
 
 	def run(self, **kargs):
 		cmd = kargs['do']
