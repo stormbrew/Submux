@@ -19,11 +19,44 @@
 	{ "keys": ["ctrl+space", "R", "-"], "command": "submux", "args": {"do": "split", "direction": "Vertical", "open": "project_symbol"} },
 	{ "keys": ["ctrl+space", "R", "\\"], "command": "submux", "args": {"do": "split", "direction": "Horizontal", "open": "project_symbol" } },
 
+	// Move the next splitter in the group (vertically or horizontally).
+	{ "keys": ["ctrl+space", "ctrl+left"], "command": "submux", "args": {"do": "resize", "direction": "left"} },
+	{ "keys": ["ctrl+space", "ctrl+right"], "command": "submux", "args": {"do": "resize", "direction": "right"} },
+	{ "keys": ["ctrl+space", "ctrl+up"], "command": "submux", "args": {"do": "resize", "direction": "up"} },
+	{ "keys": ["ctrl+space", "ctrl+down"], "command": "submux", "args": {"do": "resize", "direction": "down"} },
+
+	{ "keys": ["ctrl+left"], "command": "submux", "args": {"do": "resize", "direction": "left"},
+		"context": [ {"key": "setting.submux_moving"} ]
+	},
+	{ "keys": ["ctrl+right"], "command": "submux", "args": {"do": "resize", "direction": "right"},
+		"context": [ {"key": "setting.submux_moving"} ]
+	},
+	{ "keys": ["ctrl+up"], "command": "submux", "args": {"do": "resize", "direction": "up"},
+		"context": [ {"key": "setting.submux_moving"} ]
+	},
+	{ "keys": ["ctrl+down"], "command": "submux", "args": {"do": "resize", "direction": "down"},
+		"context": [ {"key": "setting.submux_moving"} ]
+	},
+
 	// Switch to view to the left/right/above/below
 	{ "keys": ["ctrl+space", "left"], "command": "submux", "args": {"do": "switch", "direction": "left"} },
 	{ "keys": ["ctrl+space", "right"], "command": "submux", "args": {"do": "switch", "direction": "right"} },
 	{ "keys": ["ctrl+space", "up"], "command": "submux", "args": {"do": "switch", "direction": "above"} },
 	{ "keys": ["ctrl+space", "down"], "command": "submux", "args": {"do": "switch", "direction": "below"} },
 
-	{ "keys": ["ctrl+space", "d"], "command": "submux", "args": {"do": "delete_current_pane"} }
+	// Move the active document to view to the left/right/above/below
+	{ "keys": ["ctrl+space", "m", "left"], "command": "submux", "args": {"do": "switch", "open": "move", "direction": "left"} },
+	{ "keys": ["ctrl+space", "m", "right"], "command": "submux", "args": {"do": "switch", "open": "move", "direction": "right"} },
+	{ "keys": ["ctrl+space", "m", "up"], "command": "submux", "args": {"do": "switch", "open": "move", "direction": "above"} },
+	{ "keys": ["ctrl+space", "m", "down"], "command": "submux", "args": {"do": "switch", "open": "move", "direction": "below"} },	
+
+	// Move the active document to view to the left/right/above/below
+	{ "keys": ["ctrl+space", "c", "left"], "command": "submux", "args": {"do": "switch", "open": "copy", "direction": "left"} },
+	{ "keys": ["ctrl+space", "c", "right"], "command": "submux", "args": {"do": "switch", "open": "copy", "direction": "right"} },
+	{ "keys": ["ctrl+space", "c", "up"], "command": "submux", "args": {"do": "switch", "open": "copy", "direction": "above"} },
+	{ "keys": ["ctrl+space", "c", "down"], "command": "submux", "args": {"do": "switch", "open": "copy", "direction": "below"} },
+
+	{ "keys": ["ctrl+space", "d"], "command": "submux", "args": {"do": "delete_current_pane"} },
+
+	{ "keys": ["ctrl+space", "t"], "command": "submux", "args": {"do": "tab_panel"} }
 ]
