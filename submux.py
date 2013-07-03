@@ -140,8 +140,8 @@ class SubmuxCommand(sublime_plugin.WindowCommand):
 	def run(self, **kargs):
 		cmd = kargs['do']
 		del kargs['do']
-		layout_orig = self._layout() # wasteful perhaps, but helpful.
 		layout = self._layout()
+		layout_orig = "%s" % (layout,)
 		try:
 			return getattr(self, cmd)(layout, **kargs)
 		except:
