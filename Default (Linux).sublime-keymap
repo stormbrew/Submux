@@ -54,7 +54,9 @@
 	{ "keys": ["ctrl+space", "c", "left"], "command": "submux", "args": {"do": "switch", "open": "copy", "direction": "left"} },
 	{ "keys": ["ctrl+space", "c", "right"], "command": "submux", "args": {"do": "switch", "open": "copy", "direction": "right"} },
 	{ "keys": ["ctrl+space", "c", "up"], "command": "submux", "args": {"do": "switch", "open": "copy", "direction": "above"} },
-	{ "keys": ["ctrl+space", "c", "down"], "command": "submux", "args": {"do": "switch", "open": "copy", "direction": "below"} },	
+	{ "keys": ["ctrl+space", "c", "down"], "command": "submux", "args": {"do": "switch", "open": "copy", "direction": "below"} },
 
-	{ "keys": ["ctrl+space", "d"], "command": "submux", "args": {"do": "delete_current_pane"} }
+	{ "keys": ["ctrl+space", "d"], "command": "submux", "args": {"do": "delete_current_pane"} },
+
+	{ "keys": ["ctrl+space", "t"], "command": "submux", "args": {"do": "tab_panel"} }
 ]

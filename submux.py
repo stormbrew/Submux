@@ -127,6 +127,15 @@ class SubmuxCommand(sublime_plugin.WindowCommand):
 
 			sublime.set_timeout(lambda: refresh_moving_status(cur_view), 500)
 
+	def tab_panel(self, layout):
+		active_view = self.window.active_view()
+		group, active_view = self.window.get_view_index(active_view)
+		views = self.window.views_in_group(group)
+
+		self.window.show_quick_panel([view.name() or view.file_name() or "untitled" for view in views],
+			lambda view_id: self.window.focus_view(views[view_id]) if view_id > -1 else self.window.focus_view(views[active_view]),
+			0, active_view,
+			lambda view_id: self.window.focus_view(views[view_id]))
 
 	def run(self, **kargs):
 		cmd = kargs['do']
