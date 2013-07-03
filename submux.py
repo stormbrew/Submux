@@ -5,6 +5,33 @@ class SubmuxCommand(sublime_plugin.WindowCommand):
 	def _layout(self):
 		return sublime_layout.Layout(self.window.get_layout())
 
+	def _estimate_line_em_percents(self, layout):
+		"""
+		Calculates how tall a line is, and how wide a character
+		is in terms of its percentage of the view's height using 
+		viewport_extent and the line height of a view and the layout positions of the view.
+		"""
+		views = self.window.views()
+		if views:
+			view = views[0]
+			line_height = view.line_height()
+			em = view.em_width()
+			extent = view.viewport_extent()
+			group, index = self.window.get_view_index(view)
+			group = layout.cells[group]
+
+			cell_percent_width = group.right - group.left
+			cell_percent_height = group.bottom - group.top
+
+			em_percent_width = cell_percent_width * em / extent[0]
+			line_percent_height = cell_percent_height * line_height / extent[1]
+
+			return (em_percent_width, line_percent_height)
+		else:
+			# if there's no view we have to just guess somehow.
+			# go with 5%.
+			return (0.05, 0.05)
+
 	def split(self, layout, direction, open):
 		direction = getattr(sublime_layout, direction)
 		cur_pane = self.window.active_group()
@@ -68,6 +95,22 @@ class SubmuxCommand(sublime_plugin.WindowCommand):
 				self.window.set_view_index(cur_view, change, 0)
 
 		self.window.focus_group(change)
+
+	def resize(self, layout, direction, count = 3):
+		active = self.window.active_group()
+		em_width, line_height = self._estimate_line_em_percents(layout)
+		if len(layout.cells) == 1:
+			return
+		elif direction == 'left':
+			layout.move_vertical_split(active, -count * em_width)
+		elif direction == 'right':
+			layout.move_vertical_split(active, count * em_width)
+		elif direction == 'up':
+			layout.move_horizontal_split(active, -count * line_height)
+		elif direction == 'down':
+			layout.move_horizontal_split(active, count * line_height)
+
+		self.window.set_layout(layout.make_sublime_layout())
 
 	def run(self, **kargs):
 		cmd = kargs['do']

@@ -20,6 +20,12 @@
 	{ "keys": ["ctrl+space", "R", "\\"], "command": "submux", "args": {"do": "split", "direction": "Horizontal", "open": "project_symbol" } },
 
 	// Switch to view to the left/right/above/below
+	{ "keys": ["ctrl+space", "shift+left"], "command": "submux", "args": {"do": "resize", "direction": "left"} },
+	{ "keys": ["ctrl+space", "shift+right"], "command": "submux", "args": {"do": "resize", "direction": "right"} },
+	{ "keys": ["ctrl+space", "shift+up"], "command": "submux", "args": {"do": "resize", "direction": "up"} },
+	{ "keys": ["ctrl+space", "shift+down"], "command": "submux", "args": {"do": "resize", "direction": "down"} },
+
+	// Switch to view to the left/right/above/below
 	{ "keys": ["ctrl+space", "left"], "command": "submux", "args": {"do": "switch", "direction": "left"} },
 	{ "keys": ["ctrl+space", "right"], "command": "submux", "args": {"do": "switch", "direction": "right"} },
 	{ "keys": ["ctrl+space", "up"], "command": "submux", "args": {"do": "switch", "direction": "above"} },

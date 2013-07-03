@@ -318,6 +318,60 @@ class Layout(object):
 				if other.top == bar and mid >= cell.left and mid <= cell.right:
 					return idx
 
+	def _move_horizontal_split(self, cell, by):
+		if cell.parent and cell.parent.orientation == Horizontal:
+			# since we're demanding a change to the size on
+			# an edge perpendicular to this split, do it on the parent
+			# instead.
+			return self._move_horizontal_split(cell.parent, by)
+
+		prev, next = self._get_adjacent(cell)
+		if not next:
+			# move up to the cell before it so we actually
+			# have a bar to move.
+			cell = prev
+			prev, next = self._get_adjacent(cell)
+
+		old_top = next.top
+		new_top = next.top + by
+		if (new_top > (cell.top + abs(by)) and 
+		   new_top < (next.bottom - abs(by))):
+			for sub in self._depth_walk(cell): 
+				if sub.bottom == old_top: sub.bottom = new_top
+			for sub in self._depth_walk(next):
+				if sub.top == old_top: sub.top = new_top
+
+	def move_horizontal_split(self, number, by):
+		cell = self.cells[number]
+		return self._move_horizontal_split(cell, by)
+
+	def _move_vertical_split(self, cell, by):
+		if cell.parent and cell.parent.orientation == Vertical:
+			# since we're demanding a change to the size on
+			# an edge perpendicular to this split, do it on the parent
+			# instead.
+			return self._move_vertical_split(cell.parent, by)
+
+		prev, next = self._get_adjacent(cell)
+		if not next:
+			# move up to the cell before it so we actually
+			# have a bar to move.
+			cell = prev
+			prev, next = self._get_adjacent(cell)
+
+		old_left = next.left
+		new_left = next.left + by
+		if (new_left > (cell.left + abs(by)) and 
+		   new_left < (next.right - abs(by))):
+			for sub in self._depth_walk(cell): 
+				if sub.right == old_left: sub.right = new_left
+			for sub in self._depth_walk(next):
+				if sub.left == old_left: sub.left = new_left
+
+	def move_vertical_split(self, number, by):
+		cell = self.cells[number]
+		return self._move_vertical_split(cell, by)
+
 	def make_sublime_layout(self):
 		if len(self.cells) == 1:
 			return {'cells': [[0,0,1,1]], 'rows': [0.0,1.0], 'cols': [0.0,1.0]}
