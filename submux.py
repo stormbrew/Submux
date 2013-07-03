@@ -127,10 +127,16 @@ class SubmuxCommand(sublime_plugin.WindowCommand):
 
 			sublime.set_timeout(lambda: refresh_moving_status(cur_view), 500)
 
-	def tab_panel(self, layout):
+	@staticmethod
+	def filter_views_open(view): return view
+
+	@staticmethod
+	def filter_views_unsaved(view): return view.is_dirty()
+
+	def tab_panel(self, layout, show="open"):
 		active_view = self.window.active_view()
 		group, active_view = self.window.get_view_index(active_view)
-		views = self.window.views_in_group(group)
+		views = [view for view in self.window.views_in_group(group) if getattr(self, 'filter_views_'+show)(view)]
 
 		self.window.show_quick_panel([view.name() or view.file_name() or "untitled" for view in views],
 			lambda view_id: self.window.focus_view(views[view_id]) if view_id > -1 else self.window.focus_view(views[active_view]),
