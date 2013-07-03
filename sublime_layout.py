@@ -2,6 +2,9 @@
 Horizontal = 1
 Vertical = 2
 
+class LayoutError(Exception):
+	pass
+
 class DisplayCell(object):
 	def __init__(self, layout, coords):
 		self.layout = layout
@@ -55,11 +58,11 @@ class DisplayGroup(DisplayCell):
 			elif pane.top == last.top and pane.bottom == last.bottom:
 				orientation = Horizontal
 			else:
-				raise "Unmatched panes in the same group!"
+				raise LayoutError("Unmatched panes in the same group!")
 
 			if last_orientation:
 				if orientation != last_orientation:
-					raise "Unexpected flip in orientation!"
+					raise LayoutError("Unexpected flip in orientation!")
 			else:
 				last_orientation = orientation
 
@@ -111,7 +114,7 @@ class Layout(object):
 			if len(newgroups) == 1:
 				return newgroups[0]
 			elif len(newgroups) == len(groups):
-				raise "Grouping stalled! At: %s" % (groups,)
+				raise LayoutError("Grouping stalled! At: %s" % (groups,))
 
 			groups = newgroups
 
