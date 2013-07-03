@@ -19,11 +19,24 @@
 	{ "keys": ["ctrl+space", "R", "-"], "command": "submux", "args": {"do": "split", "direction": "Vertical", "open": "project_symbol"} },
 	{ "keys": ["ctrl+space", "R", "\\"], "command": "submux", "args": {"do": "split", "direction": "Horizontal", "open": "project_symbol" } },
 
-	// Switch to view to the left/right/above/below
-	{ "keys": ["ctrl+space", "shift+left"], "command": "submux", "args": {"do": "resize", "direction": "left"} },
-	{ "keys": ["ctrl+space", "shift+right"], "command": "submux", "args": {"do": "resize", "direction": "right"} },
-	{ "keys": ["ctrl+space", "shift+up"], "command": "submux", "args": {"do": "resize", "direction": "up"} },
-	{ "keys": ["ctrl+space", "shift+down"], "command": "submux", "args": {"do": "resize", "direction": "down"} },
+	// Move the next splitter in the group (vertically or horizontally).
+	{ "keys": ["ctrl+space", "ctrl+left"], "command": "submux", "args": {"do": "resize", "direction": "left"} },
+	{ "keys": ["ctrl+space", "ctrl+right"], "command": "submux", "args": {"do": "resize", "direction": "right"} },
+	{ "keys": ["ctrl+space", "ctrl+up"], "command": "submux", "args": {"do": "resize", "direction": "up"} },
+	{ "keys": ["ctrl+space", "ctrl+down"], "command": "submux", "args": {"do": "resize", "direction": "down"} },
+
+	{ "keys": ["ctrl+left"], "command": "submux", "args": {"do": "resize", "direction": "left"},
+		"context": [ {"key": "setting.submux_moving"} ]
+	},
+	{ "keys": ["ctrl+right"], "command": "submux", "args": {"do": "resize", "direction": "right"},
+		"context": [ {"key": "setting.submux_moving"} ]
+	},
+	{ "keys": ["ctrl+up"], "command": "submux", "args": {"do": "resize", "direction": "up"},
+		"context": [ {"key": "setting.submux_moving"} ]
+	},
+	{ "keys": ["ctrl+down"], "command": "submux", "args": {"do": "resize", "direction": "down"},
+		"context": [ {"key": "setting.submux_moving"} ]
+	},
 
 	// Switch to view to the left/right/above/below
 	{ "keys": ["ctrl+space", "left"], "command": "submux", "args": {"do": "switch", "direction": "left"} },

@@ -112,6 +112,22 @@ class SubmuxCommand(sublime_plugin.WindowCommand):
 
 		self.window.set_layout(layout.make_sublime_layout())
 
+		cur_view = self.window.active_view()
+		if cur_view:
+			cur_view.settings().set("submux_moving", True)
+			moving_count = cur_view.settings().get("submux_moving_counter") or 0
+			cur_view.settings().set("submux_moving_counter", moving_count + 1)
+
+			def refresh_moving_status(view):
+				moving_count = view.settings().get("submux_moving_counter") or 0
+				moving_count = max(0, moving_count - 1)
+				view.settings().set("submux_moving_counter", moving_count)
+				if moving_count < 1:
+					view.settings().set("submux_moving", False)
+
+			sublime.set_timeout(lambda: refresh_moving_status(cur_view), 500)
+
+
 	def run(self, **kargs):
 		cmd = kargs['do']
 		del kargs['do']
