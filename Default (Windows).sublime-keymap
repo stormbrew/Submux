@@ -58,5 +58,9 @@
 
 	{ "keys": ["ctrl+space", "d"], "command": "submux", "args": {"do": "delete_current_pane"} },
 
-	{ "keys": ["ctrl+space", "t"], "command": "submux", "args": {"do": "tab_panel"} }
+	{ "keys": ["ctrl+space", "t"], "command": "submux", "args": {"do": "tab_panel"} },
+	{ "keys": ["ctrl+space", "u"], "command": "submux", "args": {"do": "tab_panel", "show": "unsaved"} },
+
+	{ "keys": ["ctrl+space", "s"], "command": "toggle_side_bar" },
+	{ "keys": ["ctrl+space", "b"], "command": "toggle_tabs" }
 ]
